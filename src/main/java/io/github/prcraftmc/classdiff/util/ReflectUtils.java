@@ -31,7 +31,13 @@ public class ReflectUtils {
     static {
         try {
             NEW_ATTRIBUTE = Attribute.class.getDeclaredConstructor(String.class);
-            ATTRIBUTE_CONTENT = Attribute.class.getDeclaredField("content");
+			Field attrContent;
+			try {
+				attrContent = Attribute.class.getDeclaredField("content");
+			} catch (NoSuchFieldException e) {
+				attrContent = Attribute.class.getDeclaredField("cachedContent");
+			}
+			ATTRIBUTE_CONTENT = attrContent;
             NEW_ATTRIBUTE.setAccessible(true);
             ATTRIBUTE_CONTENT.setAccessible(true);
 
